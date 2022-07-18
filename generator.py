@@ -4,9 +4,11 @@ from datetime import datetime
 from threading import Thread
 import re
 import csv
+from time import time
 
+start = time()
 ''' VARIABILI '''
-num_people  = 500000
+num_people  = 1000000
 num_calls   = 1000000
 num_cells   = 200000
 start_date  = [2020, 1, 1]
@@ -31,7 +33,6 @@ file = [
         ]
 
 ''' LISTA DI PERSONE '''
-
 def gen_people(num_people):
     global people 
     people = [file[:3] + ['Number']]
@@ -42,7 +43,8 @@ def gen_people(num_people):
         now.insert(0, now[0] + now[1])
         while True:
             pn = fake.unique.phone_number()
-            if re.findall("^[3][0-9]{9}$", pn) != [] and pn not in (person[3] for person in people):
+            if pn[0] == '3':
+            #if re.findall("^[3][0-9]{9}$", pn) != []:#and pn not in (person[3] for person in people):
                 now.append(pn)
                 break
         people.append(now)
@@ -88,17 +90,15 @@ def write(name, list):
         write.writerows(list)
 
 gen_people(num_people)
-
+#gen_calls(num_calls, num_people, start_date, end_date, range_call)
+#gen_cells(num_cells)
 threads = []
 #threads.append(Thread(target=gen_people, args=(num_people,)))
 threads.append(Thread(target=gen_cells, args=(num_cells,)))
 threads.append(Thread(target=gen_calls, args=(num_calls, num_people, start_date, end_date, range_call)))
 threads.append(Thread(target=write, args=("people",people)))
-
-
 for i in range(3):
     threads[i].start()
-
 
 #gen_people()
 #gen_calls()
@@ -114,4 +114,3 @@ with open('calls.csv', 'w') as f:
     write = csv.writer(f)
     write.writerows(calls)
 """
-
