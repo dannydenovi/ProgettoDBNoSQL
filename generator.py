@@ -18,7 +18,6 @@ file = [
             'FullName',
             'FirstName',
             'LastName',
-            'CallID',
             'CallingNbr',
             'CalledNbr',
             'StartDate',
@@ -62,10 +61,9 @@ def gen_calls(num_calls, num_people, start_date, end_date, range_call):
                 
     """ LISTA DATE  """
     for i in range (1, len(calls[1:]) + 1):
-        calls[i].insert(0, i)
         calls[i].append(int(fake.unix_time(datetime(end_date[0], end_date[1], end_date[2]), datetime(start_date[0], start_date[1], start_date[2]))))
         delta = randrange(1, range_call)
-        calls[i].append(calls[i][3] + delta)
+        calls[i].append(calls[i][2] + delta)
         calls[i].append(delta)
         calls[i].append(cells[randrange(1, num_cells)][0])
     write("calls", calls)
