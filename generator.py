@@ -5,9 +5,9 @@ from threading import Thread
 import csv
 
 ''' VARIABILI '''
-num_people  = 1000000
-num_calls   = 1000000
-num_cells   = 200000
+num_people  = 500
+num_calls   = 1000
+num_cells   = 200
 start_date  = [2020, 1, 1]
 end_date    = [2020, 2, 1]
 range_call  = 1200
@@ -18,21 +18,22 @@ file = [
             'FullName',
             'FirstName',
             'LastName',
+            'CallID',
             'CallingNbr',
             'CalledNbr',
             'StartDate',
             'EndDate',
             'Duration',
+            'CellSite',
             'City',
             'State',
-            'Address',
-            'CellSite'
+            'Address'
         ]
 
 ''' LISTA DI PERSONE '''
 def gen_people(num_people):
     global people 
-    people = [file[:3] + ['Number']]
+    people = [['Number'] + file[:3]]
     for i in range(num_people):
         now = []    
         now.append(fake.first_name_nonbinary())
@@ -40,30 +41,33 @@ def gen_people(num_people):
         now.insert(0, now[0] + now[1])
         while True:
             pn = fake.unique.phone_number()
-            if pn[0] == '3':
-                now.append(pn)
+            if pn[0] == '3' and len(pn) == 10:
+                now.insert(0, pn)
                 break
         people.append(now)
+    write('people', people)
 
 
 ''' LISTA DI CHIAMATE '''
 def gen_calls(num_calls, num_people, start_date, end_date, range_call): 
     global calls
-    calls = [file[3:8].copy()]
+    calls = [file[3:9].copy()]
     for i in range(1,num_calls+1):
-        calls += [[people[randrange(1, num_people)][3]]]
+        calls += [[people[randrange(1, num_people)][0]]]
         while True:
-            end = people[randrange(1, num_people)][3]
+            end = people[randrange(1, num_people)][0]
             if end != calls[i][0]:
                 calls[i] += [end]
                 break
                 
     """ LISTA DATE  """
-    for row in calls[1:]:
-        row.append(int(fake.unix_time(datetime(end_date[0], end_date[1], end_date[2]), datetime(start_date[0], start_date[1], start_date[2]))))
+    for i in range (1, len(calls[1:]) + 1):
+        calls[i].insert(0, i)
+        calls[i].append(int(fake.unix_time(datetime(end_date[0], end_date[1], end_date[2]), datetime(start_date[0], start_date[1], start_date[2]))))
         delta = randrange(1, range_call)
-        row.append(row[2] + delta)
-        row.append(delta)
+        calls[i].append(calls[i][3] + delta)
+        calls[i].append(delta)
+        calls[i].append(cells[randrange(1, num_cells)][0])
     write("calls", calls)
 
 
@@ -75,7 +79,7 @@ def gen_cells(num_cells):
         cells += [[fake.administrative_unit()]]
         cells[i].append(fake.current_country_code())
         cells[i].append(fake.street_name())
-        cells[i].append(i)
+        cells[i].insert(0, i)
     write("cells", cells)
 
 def write(name, list):
@@ -83,13 +87,17 @@ def write(name, list):
         write = csv.writer(f)
         write.writerows(list)
 
-gen_people(num_people)
+#gen_people(num_people)
 
 threads = []
-threads.append(Thread(target=write, args=("people",people)))
+#threads.append(Thread(target=write, args=("people",people)))
 threads.append(Thread(target=gen_cells, args=(num_cells,)))
-threads.append(Thread(target=gen_calls, args=(num_calls, num_people, start_date, end_date, range_call)))
+threads.append(Thread(target=gen_people, args=(num_people,)))
 
-for i in range(3):
+for i in range(2):
     threads[i].start()
 
+for i in range(2):
+    threads[i].join()
+
+gen_calls(num_calls, num_people, start_date, end_date, range_call)
