@@ -69,10 +69,6 @@ mongoimport \
 --file "/csv/cells.csv"
 ```
 
-```mongodb //Creazione locations da mongosh
-db.cells.aggregate({$project: {State: 1, City: 1}}, {$out: "locations"})
-```
-
 ```bash
 \
 mongoimport \
@@ -80,6 +76,9 @@ mongoimport \
 --collection calls \
 --type csv \
 --headerline \
---file "/csv/people.csv"
+--file "/csv/calls.csv"
 ```
 
+```mongodb //Creazione locations da mongosh
+db.cells.aggregate({$project: {State: 1, City: 1}}, {$out: "locations"})
+```
