@@ -81,7 +81,7 @@ def gen_cells(num_cells):
     write("cells", cells)
 
 def write(name, list):
-    with open(name+'.csv', 'w') as f:
+    with open('csv/'+name+'.csv', 'w') as f:
         write = csv.writer(f)
         write.writerows(list)
 
