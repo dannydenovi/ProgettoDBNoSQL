@@ -5,9 +5,9 @@ from threading import Thread
 import csv
 
 ''' VARIABILI '''
-num_people  = 500
-num_calls   = 1000
-num_cells   = 200
+num_people  = 5000
+num_calls   = 250000
+num_cells   = 2000
 start_date  = [2020, 1, 1]
 end_date    = [2020, 2, 1]
 range_call  = 1200
