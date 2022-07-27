@@ -14,11 +14,6 @@ CREATE (n:cell {CellSite:row.CellSite, State:row.State, City:row.City, Address:r
 ```
 
 ```cypher
-LOAD CSV WITH HEADERS FROM 'file:///cells.csv' as row
-MERGE (l:location {City:row.City, State:row.State})
-```
-
-```cypher
 LOAD CSV WITH HEADERS FROM 'file:///calls.csv' AS row
 CREATE (n:call {CallingNbr:row.CallingNbr, CalledNbr:row.CalledNbr, StartDate:row.StartDate, EndDate:row.EndDate, Duration:row.Duration, CellSite:row.CellSite})
 ```
@@ -53,7 +48,7 @@ mongoimport \
 --db test \
 --collection people \
 --type csv \
---upsertFields="Number"
+--upsertFields="Number" \
 --headerline \
 --file "/csv/people.csv"
 ```
@@ -64,7 +59,7 @@ mongoimport \
 --db test \
 --collection cells \
 --type csv \
---upsertFields="City","State","Address"
+--upsertFields="City","State","Address" \
 --headerline \
 --file "/csv/cells.csv"
 ```
@@ -77,8 +72,4 @@ mongoimport \
 --type csv \
 --headerline \
 --file "/csv/calls.csv"
-```
-
-```mongodb //Creazione locations da mongosh
-db.cells.aggregate({$project: {State: 1, City: 1}}, {$out: "locations"})
 ```
