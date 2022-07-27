@@ -1,4 +1,3 @@
-import sys
 from sys import argv
 from mongo import insert_mongo
 from neo import insert_neo
