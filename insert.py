@@ -1,6 +1,6 @@
-from sys import argv
-from mongo import insert_mongo
-from neo import insert_neo
+from sys import argv, exit
+from scripts.mongo_insert import insert_mongo
+from scripts.neo_insert import insert_neo
 from threading import Thread
 
 
@@ -36,4 +36,4 @@ if 'thread_neo' in locals():
     thread_neo.join()
 
 print("Inserimenti finiti.")
-sys.exit(0)
+exit(0)
