@@ -27,6 +27,7 @@ args    = parser.parse_args()
 debug   = args.debug
 mongo, neo = (args.mongo, args.neo) if not args.all else (args.all, args.all)
 
+'''
 if len(argv) - 1:
     if "-d" in argv:
         debug = True
@@ -41,7 +42,7 @@ if len(argv) - 1:
             mongo = True
         if "--neo" in argv:
             neo = True
-
+'''
 if mongo:
     thread_mongo = Thread(target=insert_mongo, kwargs={'debug': debug})
     thread_mongo.start()
