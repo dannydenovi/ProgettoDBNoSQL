@@ -1,11 +1,12 @@
-from sys import argv, exit
+#!/bin/env python3
+from sys import exit
 from scripts.mongo_insert import insert_mongo
 from scripts.neo_insert import insert_neo
 from threading import Thread
-import argparse
+from argparse import ArgumentParser
 
 
-parser = argparse.ArgumentParser(description="Inserts files into either MongoDB or Neo4j databases, or both of them.")
+parser = ArgumentParser(description="Inserts files into either MongoDB or Neo4j databases, or both of them.")
 parser.add_argument('-d', '--debug',
                     action="store_true",
                     default=False,
