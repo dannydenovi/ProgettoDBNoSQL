@@ -15,7 +15,6 @@ def exec_query(query: list[str, ...], client=connect_mongo(), t: bool = False) -
     match query[0]:
         case 'f':
             client.test.calls.find(query[1])
-            return
         case 'a':
             client.test.calls.aggregate(query[1])
 
