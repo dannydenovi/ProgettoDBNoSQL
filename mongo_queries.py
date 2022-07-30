@@ -1,9 +1,9 @@
 #!/bin/env python3
-from datetime               import datetime
-from scripts.connections    import connect_mongo
-from argparse               import ArgumentParser
-from time                   import time, mktime
-from sys                    import exit
+from datetime import datetime
+from scripts.connections import connect_mongo
+from argparse import ArgumentParser
+from time import time, mktime
+from sys import exit
 
 
 def timestamp(start: float = 0) -> float:
@@ -12,11 +12,10 @@ def timestamp(start: float = 0) -> float:
 
 def exec_query(query: list[str, ...], client=connect_mongo(), t: bool = False) -> float:
     start = timestamp()
-    match query[0]:
-        case 'f':
-            client.test.calls.find(query[1])
-        case 'a':
-            client.test.calls.aggregate(query[1])
+    if query[0] == 'f':
+        client.test.calls.find(query[1])
+    elif query[0] == 'a':
+        client.test.calls.aggregate(query[1])
 
     if t:
         return timestamp(start)
