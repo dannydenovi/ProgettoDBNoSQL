@@ -1,9 +1,9 @@
 #!/bin/env python3
-from sys import exit
-from scripts.mongo_insert import insert_mongo
-from scripts.neo_insert import insert_neo
-from threading import Thread
-from argparse import ArgumentParser
+from sys                    import exit
+from scripts.mongo_insert   import insert_mongo
+from scripts.neo_insert     import insert_neo
+from threading              import Thread
+from argparse               import ArgumentParser
 
 
 parser = ArgumentParser(description="Inserts files into either MongoDB or Neo4j databases, or both of them.")
@@ -28,22 +28,6 @@ args    = parser.parse_args()
 debug   = args.debug
 mongo, neo = (args.mongo, args.neo) if not args.all else (args.all, args.all)
 
-'''
-if len(argv) - 1:
-    if "-d" in argv:
-        debug = True
-        print("Debug attivo.")
-
-#   mongo, neo = (True, True) if "--all" in argv else (True, False) if "--mongo" in argv else (False, True) if "--neo" in argv else (False, False)
-
-    if "--all" in argv:
-        mongo = neo = True
-    else:
-        if "--mongo" in argv:
-            mongo = True
-        if "--neo" in argv:
-            neo = True
-'''
 if mongo:
     thread_mongo = Thread(target=insert_mongo, kwargs={'debug': debug})
     thread_mongo.start()
