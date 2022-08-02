@@ -1,12 +1,18 @@
+
+
 # Query 1
-
-1 Where, return con proiezione
-
-Mongo: 0.342
-NEO4J: 0.380
+```sql
+    SELECT CallingNbr 
+    FROM Calls 
+        WHERE StartDate >= 2020-01-27
+```
 
 # Query 2
+```sql
+    SELECT CallingNbr 
+    FROM Calls 
+        JOIN Cells ON Calls.CellSite = Cells.CellSite 
+            WHERE StartDate >= 2020-01-15
+```
 
-2 Where e return con proiezione
-
-Mongo: 
+# Query 3

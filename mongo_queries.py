@@ -10,7 +10,7 @@ def timestamp(start: float = 0) -> float:
     return time() - start
 
 
-def exec_query(query: list[str, ...], client=connect_mongo(), t: bool = False) -> float:
+def exec_query(n: int, client=connect_mongo(), t: bool = False) -> float:
     start = timestamp()
     if n == 1:
             query_1(client)
@@ -25,6 +25,43 @@ def exec_query(query: list[str, ...], client=connect_mongo(), t: bool = False) -
     if t:
         return timestamp(start)
     return 0
+
+
+def query_1(client=connect_mongo()):
+    query = {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple()))}}
+    z = []
+    for x in client.test.calls.find(query):
+        z += [x['CalledNbr']]
+    # for x in client.test.cells.find(query):
+    #    z += [y['CallingNbr'] for y in client.test.calls.find({'CellSite': x['CellSite']})]
+    return
+
+
+def query_2(client=connect_mongo()):
+    query = {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
+                           '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}
+    z = []
+    for x in client.test.calls.find(query):
+        z += [x['CalledNbr']]
+    return
+
+
+def query_3(client=connect_mongo()):
+    query = {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 15).timetuple())), '$lt': int(mktime(datetime(2020, 1, 16).timetuple()))}}
+    z = []
+    client.test.calls.find(query)
+    return
+
+
+def query_4(client=connect_mongo()):
+    y = []
+    for x in client.test.cells.find({"City": "Messina"}):
+        y += [x['CellSite']]
+    return
+
+
+def query_5(client=connect_mongo()):
+    return
 
 
 if __name__ == "__main__":
