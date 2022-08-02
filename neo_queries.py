@@ -34,7 +34,7 @@ if __name__ == "__main__":
     num     = int(args.N)
 
     queries = [
-        "MATCH (c:call)<-[:is_called]-(p2:person) WHERE c.Duration < 2 RETURN p2.FullName",
+        "MATCH (c:call) WHERE c.StartDate >= '1579046400' AND c.StartDate < '1579132800' RETURN c",
         #"MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person)                     \
         #WHERE c.StartDate >= '1580197490'   \
         #RETURN c"
