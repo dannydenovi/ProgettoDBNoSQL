@@ -17,7 +17,7 @@ def insert_mongo(ip: str = "localhost", port: str = "27017", debug: bool = False
         client.drop_database('test')
     del client
 
-    with open("csv/people.csv") as peoplef:
+    with open("./csv/people.csv") as peoplef:
         rows = to_dict(list(DictReader(peoplef)))
         # for k, e in enumerate(rows):
         #    for f, i in e.items():
@@ -28,7 +28,7 @@ def insert_mongo(ip: str = "localhost", port: str = "27017", debug: bool = False
         if debug:
             print("MONGODB: Persone inserite")
 
-    with open("csv/cells.csv") as cellsf:
+    with open("./csv/cells.csv") as cellsf:
         rows = to_dict(list(DictReader(cellsf)))
         # for k, e in enumerate(rows):
         #    for f, i in e.items():
@@ -39,7 +39,7 @@ def insert_mongo(ip: str = "localhost", port: str = "27017", debug: bool = False
         if debug:
             print("MONGODB: Celle inserite")
 
-    with open("csv/calls.csv") as callsf:
+    with open("./csv/calls.csv") as callsf:
         rows = to_dict(list(DictReader(callsf)))
         # for k, e in enumerate(rows):
         #    for f, i in e.items():

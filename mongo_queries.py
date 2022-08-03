@@ -40,9 +40,7 @@ def query_1(client=connect_mongo()):
 def query_2(client=connect_mongo()):
     query = {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
                            '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}
-    z = []
-    for x in client.test.calls.find(query):
-        z += [x['CalledNbr']]
+    client.test.calls.find(query)
     return
 
 
