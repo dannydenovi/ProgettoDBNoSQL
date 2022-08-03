@@ -30,8 +30,9 @@ def exec_query(n: int, client=connect_mongo(), t: bool = False) -> float:
 def query_1(client=connect_mongo()):
     query = {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple()))}}
     z = []
-    for x in client.test.calls.find(query):
-        z += [x['CalledNbr']]
+    client.test.calls.find(query)
+    #for x in client.test.calls.find(query):
+    #    z += [x['CalledNbr']]
     # for x in client.test.cells.find(query):
     #    z += [y['CallingNbr'] for y in client.test.calls.find({'CellSite': x['CellSite']})]
     return
@@ -46,15 +47,12 @@ def query_2(client=connect_mongo()):
 
 def query_3(client=connect_mongo()):
     query = {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 15).timetuple())), '$lt': int(mktime(datetime(2020, 1, 16).timetuple()))}}
-    z = []
     client.test.calls.find(query)
     return
 
 
 def query_4(client=connect_mongo()):
-    y = []
-    for x in client.test.cells.find({"City": "Messina"}):
-        y += [x['CellSite']]
+    client.test.calls.aggregate([{"$lookup": {"from": "people", "localField":'CallingNbr', "foreignField":"Number", "as": "Calling"}}, {"$lookup": {"from": "people", "localField":'CalledNbr', "foreignField":"Number", "as": "Called"}}])
     return
 
 

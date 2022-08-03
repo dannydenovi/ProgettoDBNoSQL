@@ -34,18 +34,17 @@ if __name__ == "__main__":
     num     = int(args.N)
 
     queries = [
-        "MATCH (c:call) WHERE c.StartDate >= '1579046400' AND c.StartDate < '1579132800' RETURN c",
+        "MATCH (c:call) WHERE c.StartDate >= 1579046400 AND c.StartDate < 1579132800 RETURN c",
         #"MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person)                     \
         #WHERE c.StartDate >= '1580197490'   \
         #RETURN c"
 
-        "MATCH (p:person)-[r:is_calling]->(c:call) WHERE c.CallingNbr = '3390806281' AND c.FirstName <> 'a' RETURN distinct p",
+        "MATCH (p:person)-[r:is_calling]->(c:call) RETURN p, r, c",
         #"MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person)                    \
         #WHERE c.StartDate >= '1580197490' AND c.StartDate < '1580515200'    \
         #RETURN c",
 
         "MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person)   \
-        WHERE c.StartDate >= '1580197490' AND c.StartDate < '1580515200' AND p1.FirstName = 'Giuliano'   \
         RETURN p1, p2, r1, r2, c",
 
         "MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person), (c)-[r3: is_located]->(ce:cell)\

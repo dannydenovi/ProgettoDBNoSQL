@@ -9,7 +9,7 @@ def drop_all(tx):
 def create_people(tx):
     tx.run("LOAD CSV WITH HEADERS FROM 'file:///people.csv' AS row \
             CREATE (n:person \
-            {FullName:row.FullName, FirstName:row.FirstName, LastName:row.LastName, Number:row.Number})")
+            {FullName:row.FullName, FirstName:row.FirstName, LastName:row.LastName, Number:toInteger(row.Number)})")
     return
 
 
@@ -21,8 +21,8 @@ def create_cells(tx):
 
 def create_calls(tx):
     tx.run("LOAD CSV WITH HEADERS FROM 'file:///calls.csv' AS row \
-            CREATE (n:call {CallingNbr:row.CallingNbr, CalledNbr:row.CalledNbr, StartDate:row.StartDate, \
-            EndDate:row.EndDate, Duration:row.Duration, CellSite:row.CellSite})")
+            CREATE (n:call {CallingNbr:toInteger(row.CallingNbr), CalledNbr:toInteger(row.CalledNbr), StartDate:toInteger(row.StartDate), \
+            EndDate:toInteger(row.EndDate), Duration:toInteger(row.Duration), CellSite:toInteger(row.CellSite)})")
     return
 
 
