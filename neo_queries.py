@@ -1,8 +1,8 @@
 #!/bin/env python3
-from scripts.connections    import connect_neo
-from argparse               import ArgumentParser
-from time                   import time
-from sys                    import exit
+from scripts.connections import connect_neo, parse
+from time import time
+from statistics import stdev
+from sys import exit
 
 
 def timestamp(start: float = 0) -> float:
@@ -18,64 +18,49 @@ def exec_query(qry: str, client=connect_neo(), t: bool = False) -> float:
     return 0
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser(description="Executes some queries to Neo4j.")
-    parser.add_argument('-t', '--time',
-                        action="store_true",
-                        default=False,
-                        help='Prints execution time.')
-    parser.add_argument('-n',
-                        dest="N",
-                        required=True,
-                        help='Specify which query to execute [1-5].')
+def clear_cache():
+    exec_query("CALL db.clearQueryCaches()")
+    return
 
-    args    = parser.parse_args()
-    time_f  = args.time
-    num     = int(args.N)
+
+if __name__ == "__main__":
+    args = parse()
+    num = int(args.N)
 
     queries = [
-        "MATCH (c:call) WHERE c.StartDate >= 1579046400 AND c.StartDate < 1579132800 RETURN c",
-        #"MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person)                     \
-        #WHERE c.StartDate >= '1580197490'   \
-        #RETURN c"
+        "MATCH(p1:person)-[r1: is_calling]->(c:call)\
+        RETURN p1, r1, c",
 
-        "MATCH (p:person)-[r:is_calling]->(c:call) RETURN p, r, c",
-        #"MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person)                    \
-        #WHERE c.StartDate >= '1580197490' AND c.StartDate < '1580515200'    \
-        #RETURN c",
+        "MATCH(p1:person)-[r1: is_calling]->(c:call)-[r2: is_called]->(p2:person)                    \
+        RETURN p1, r1, c, r2 ,p2",
 
-        "MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person)   \
+        "MATCH(p1:person)-[r1: is_calling]->(c:call)-[r2: is_called]->(p2:person)  \
+        WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000 \
         RETURN p1, p2, r1, r2, c",
 
-        "MATCH(p1:person)-[r1: is_calling]->(c:call)<-[r2: is_called]-(p2:person), (c)-[r3: is_located]->(ce:cell)\
-        WHERE c.StartDate >= '1580197490' AND c.StartDate < '1580515200' AND p1.FirstName = 'Giuliano' \
-        RETURN p1, p2, r1, r2, r3, c, ce",
+        "MATCH(p1:person)-[r1: is_calling]->(c:call)-[r2: is_called]->(p2:person), (c)-[r3:is_done]->(ce:cell)   \
+        WHERE c.StartDate >= 1580197490 AND c.StartDate < 1580515200 \
+        RETURN p1, p2, r1, r2, r3, ce, c",
 
-        "MATCH(p1:person)-[r1: is_calling]->(c:call) < -[r2: is_called]-(p2:person), (c)-[r3: is_located]->(ce:cell)\
-        WHERE ce.City = 'Messina' OR ce.City = 'Napoli' AND c.StartDate >= '1580197490' AND c.StartDate < '1580515200' AND p1.FirstName = 'Giuliano' \
-        RETURN c"
+        "MATCH(p1:person)-[r1: is_calling]->(c:call)-[r2: is_called]->(p2:person), (c)-[r3: is_located]->(ce:cell)\
+        WHERE c.StartDate >= 1580197490 AND c.StartDate < 1580515200 AND c.Duration > 900 \
+        RETURN p1, p2, r1, r2, r3, ce, c"
     ]
 
+    print(exec_query(queries[num], t=True))
     if 0 < num < 6:
-        print(exec_query(queries[num - 1], t=time_f))
-        #with open('csv/neo_result_' + str(num) + '.csv', 'w') as f:
-        #    sum = 0
-        #    for _ in range(30):
-        #        tmp = exec_query(queries[num - 1], t=time_f)
-        #        f.write(str(tmp) + '\n')
-        #        sum += tmp
-        #print(sum / 30)
+        clear_cache()
+        with open('csv/neo_result_' + str(num) + '.csv', 'w') as f:
+            f.write("First," + str(exec_query(queries[num], t=args.time)) + "\n")
+            tmp = []
+            for i in range(30):
+                if args.c:
+                    clear_cache()
+                tmp += [exec_query(queries[num], t=args.time)]
+                f.write("," + str(tmp[i]) + '\n')
+            f.write("Mean," + str(sum(tmp)/30) + "\n")
+            f.write("Std. Dev.," + str(stdev(tmp)) + "\n")
+        # print(sum(tmp)/30)
     else:
         print("Wrong query number. Only from 1 to 5.")
     exit(0)
-
-
-
-
-
-
-
-
-
-
-

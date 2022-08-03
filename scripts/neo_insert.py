@@ -15,7 +15,7 @@ def create_people(tx):
 
 def create_cells(tx):
     tx.run("LOAD CSV WITH HEADERS FROM 'file:///cells.csv' AS row \
-            CREATE (n:cell {CellSite:row.CellSite, State:row.State, City:row.City, Address:row.Address})")
+            CREATE (n:cell {CellSite:toInteger(row.CellSite), State:row.State, City:row.City, Address:row.Address})")
     return
 
 
