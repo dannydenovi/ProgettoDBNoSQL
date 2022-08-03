@@ -8,7 +8,8 @@ RETURN c
 ```
 
 ## Query 2
-```db.calls.find({StartDate: {$gte: new Date("2020-01-15").getTime()/1000, $lt: new Date("2020-01-20").getTime()/1000}})
+```
+db.calls.find({StartDate: {$gte: new Date("2020-01-15").getTime()/1000, $lt: new Date("2020-01-20").getTime()/1000}})
 
 MATCH (c:call)
 WHERE c.StartDate >= "2020-01-15" AND c.StartDate < "2020-01-20"
