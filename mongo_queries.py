@@ -39,7 +39,6 @@ def exec_query(n: int, client=connect_mongo(), t: bool = False) -> float:
 
 def query_1(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple()))}}}]
-    #query = [{"$lookup": {"from": "people", "localField": "CallingNbr", "foreignField": "Number", "as": "Calling"}}]
     client.test.calls.aggregate(query)
     return
 
@@ -47,7 +46,6 @@ def query_1(client=connect_mongo()):
 def query_2(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
                                        '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}}]
-             #{"$lookup": {"from": "people", "localField": 'CalledNbr', "foreignField": "Number", "as": "Called"}}]
     client.test.calls.aggregate(query)
     return
 
@@ -97,7 +95,6 @@ if __name__ == "__main__":
                 f.write("," + str(tmp[i])+'\n')
             f.write("Mean," + str(sum(tmp)/30) + "\n")
             f.write("Std. Dev.," + str(stdev(tmp)) + "\n")
-        # print(sum(tmp)/30)
     else:
         print("Wrong query number. Only from 1 to 5.")
     exit(0)
