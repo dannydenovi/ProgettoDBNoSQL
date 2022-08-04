@@ -3,21 +3,30 @@
 from faker import Faker
 from random import randrange
 from datetime import datetime
+from argparse import ArgumentParser
 from threading import Thread
 import csv
 
-''' VARIABILI '''
-num_people  = 20000
-num_calls   = 1000000
-num_cells   = 16000
-start_date  = [2020, 1, 1]
-end_date    = [2020, 2, 1]
-range_call  = 1200
 
-fake    = Faker("it_IT")
-people  = []
-cells   = []
-calls   = []
+parser = ArgumentParser(description="Select multiplyer for number of datas.")
+parser.add_argument('-p', '--percentage',
+                    dest="P",
+                    required=True,
+                    help='Specify the percentage.')
+args = parser.parse_args()
+
+''' VARIABILI '''
+num_people = 20000 * int(args.P)//100
+num_calls = 1000000 * int(args.P)//100
+num_cells = 16000 * int(args.P)//100
+start_date = [2020, 1, 1]
+end_date = [2020, 2, 1]
+range_call = 1200
+
+fake = Faker("it_IT")
+people = []
+cells = []
+calls = []
 
 file = [
     'FullName',
@@ -42,8 +51,8 @@ def gen_people(num_people):
     people = [['Number'] + file[:3]]
     for i in range(num_people):
         now = [
-                fake.first_name_nonbinary(),
-                fake.last_name_nonbinary()
+            fake.first_name_nonbinary(),
+            fake.last_name_nonbinary()
         ]
         now.insert(0, now[0] + now[1])
         while True:
@@ -100,11 +109,10 @@ def write(name, list):
         write.writerows(list)
 
 
-# gen_people(num_people)
 
 threads = [
-            Thread(target=gen_cells, args=(num_cells,)),
-            Thread(target=gen_people, args=(num_people,))
+    Thread(target=gen_cells, args=(num_cells,)),
+    Thread(target=gen_people, args=(num_people,))
 ]
 # threads.append(Thread(target=write, args=("people",people)))
 

@@ -82,11 +82,12 @@ def query_5(client=connect_mongo()):
 
 if __name__ == "__main__":
     args = parse()
-    num = int(args.N)
+    num = args.N
+    perc = args.perc + "_" if args.perc != "" else ""
 
     if 0 < num < 6:
         clear_cache()
-        with open('csv/mongo_result_'+str(num)+'.csv', 'w') as f:
+        with open('csv/mongo_result_' + perc + num +'.csv', 'w') as f:
             f.write("First," + str(exec_query(num, t=args.time)) + "\n")
             tmp = []
             for i in range(30):
