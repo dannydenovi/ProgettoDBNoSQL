@@ -1,4 +1,5 @@
 from scripts.connections import connect_neo
+from time                import time
 
 
 def drop_all(tx):
@@ -47,7 +48,11 @@ def create_is_located(tx):
     return
 
 
-def insert_neo(ip: str = "localhost", port: str = "7687", user: str = "neo4j", passwd: str = "neo4j", debug: bool = False):
+def timestamp(start: float = 0) -> float:
+    return time() - start
+
+
+def insert_neo(ip: str = "localhost", port: str = "7687", user: str = "neo4j", passwd: str = "neo4j", debug: bool = False, dim: int = 25):
     driver = connect_neo(ip, port, user, passwd)
 
     with driver.session() as db:
@@ -55,6 +60,9 @@ def insert_neo(ip: str = "localhost", port: str = "7687", user: str = "neo4j", p
         if debug:
             db.write_transaction(drop_all)
             print("NEO4J: Drop del database effettuato.")
+
+        #       Timestamp
+        start = timestamp()
 
         #       Entità
         db.write_transaction(create_people)
@@ -81,6 +89,10 @@ def insert_neo(ip: str = "localhost", port: str = "7687", user: str = "neo4j", p
         db.write_transaction(create_is_located)
         if debug:
             print("NEO4J: Relazione is_located creata")
+
+        with open("./csv/neo4j_upload_time.csv", "a+") as timef:
+            timef.write(str(dim)+"%: "+str(timestamp(start))+"\n")
+
 
     driver.close()
     return

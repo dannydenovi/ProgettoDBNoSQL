@@ -24,9 +24,13 @@ def parse():
                         dest="N",
                         required=True,
                         help='Specify which query to execute [1-5].')
-    parser.add_argument('-c',
+    parser.add_argument('-c', '--cache',
                         action="store_true",
                         default=False,
+                        help='Clear cache')
+    parser.add_argument('-p', '--perc',
+                        dest="P",
+                        default="",
                         help='Clear cache')
 
     return parser.parse_args()

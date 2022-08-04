@@ -23,17 +23,23 @@ parser.add_argument('-a', '--all',
                     action="store_true",
                     default=False,
                     help='Insert files only to Neo4j database.')
+parser.add_argument('-p', '--percentage',
+                    dest="P",
+                    required=True,
+                    help='Specify the percentage.')
+
+
 
 args    = parser.parse_args()
 debug   = args.debug
 mongo, neo = (args.mongo, args.neo) if not args.all else (args.all, args.all)
 
 if mongo:
-    thread_mongo = Thread(target=insert_mongo, kwargs={'debug': debug})
+    thread_mongo = Thread(target=insert_mongo, kwargs={'debug': debug, 'dim': args.P})
     thread_mongo.start()
 
 if neo:
-    thread_neo = Thread(target=insert_neo, kwargs={'debug': debug})
+    thread_neo = Thread(target=insert_neo, kwargs={'debug': debug, 'dim': args.P})
     thread_neo.start()
 
 if 'thread_mongo' in locals():
