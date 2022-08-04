@@ -29,22 +29,22 @@ if __name__ == "__main__":
 
     queries = [
         "MATCH (c:call) \
-         WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000   \
+         WHERE c.StartDate >= 1580083200   \
          RETURN c",
 
-        "MATCH (p:person)-[r:is_calling]->(c:call)  \
+        "MATCH (c:call)  \
          WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000   \
          RETURN p, r, c",
 
-        "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r2:is_called]->(p2:person)  \
+        "MATCH (p1:person)-[r1:is_calling]->(c:call)  \
          WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000   \
          RETURN p1, r1, c, r2, p2",
-        
-        "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r2:is_called]->(p2:person)  \
-         WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000 AND c.Duration > 900   \
+
+        "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r3:is_done]->(ce:cell) \
+         WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000   \
          RETURN p1, r1, c, r2, p2",
          
-        "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r2:is_called]->(p2:person), (c)-[r3:is_done]->(ce:cell) \
+        "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r3:is_done]->(ce:cell) \
          WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000 AND c.Duration > 900   \
          RETURN p1, r1, c, r2, p2, r3, ce"
     ]
