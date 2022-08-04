@@ -94,7 +94,6 @@ if __name__ == "__main__":
                 f.write("," + str(tmp[i])+'\n')
             f.write("Mean," + str(sum(tmp)/30) + "\n")
             f.write("Std. Dev.," + str(stdev(tmp)) + "\n")
-        # print(sum(tmp)/30)
     else:
         print("Wrong query number. Only from 1 to 5.")
     exit(0)
