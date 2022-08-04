@@ -25,8 +25,8 @@ def clear_cache():
 
 if __name__ == "__main__":
     args = parse()
-    num = args.N
-    perc = args.perc + "_" if args.perc != "" else ""
+    num = int(args.N)
+    perc = args.P + "_" if args.P != "" else ""
 
     queries = [
         "MATCH (c:call) \
@@ -52,17 +52,14 @@ if __name__ == "__main__":
 
     if 0 < num < 6:
         clear_cache()
-        with open('csv/neo_result_' + perc + num + '.csv', 'w') as f:
+        with open('csv/neo_result_' + perc + str(num) + '.csv', 'w') as f:
             f.write("First," + str(exec_query(queries[num - 1], t=args.time)) + "\n")
             tmp = []
             for i in range(30):
-                if args.c:
-                    clear_cache()
                 tmp += [exec_query(queries[num - 1], t=args.time)]
                 f.write("," + str(tmp[i]) + '\n')
             f.write("Mean," + str(sum(tmp)/30) + "\n")
             f.write("Std. Dev.," + str(stdev(tmp)) + "\n")
-        # print(sum(tmp)/30)
     else:
         print("Wrong query number. Only from 1 to 5.")
     exit(0)

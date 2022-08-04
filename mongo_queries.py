@@ -80,17 +80,15 @@ def query_5(client=connect_mongo()):
 
 if __name__ == "__main__":
     args = parse()
-    num = args.N
-    perc = args.perc + "_" if args.perc != "" else ""
+    num = int(args.N)
+    perc = args.P + "_" if args.P != "" else ""
 
     if 0 < num < 6:
         clear_cache()
-        with open('csv/mongo_result_' + perc + num +'.csv', 'w') as f:
+        with open('csv/mongo_result_' + perc + str(num) +'.csv', 'w') as f:
             f.write("First," + str(exec_query(num, t=args.time)) + "\n")
             tmp = []
             for i in range(30):
-                if args.c:
-                    clear_cache()
                 tmp += [exec_query(num, t=args.time)]
                 f.write("," + str(tmp[i])+'\n')
             f.write("Mean," + str(sum(tmp)/30) + "\n")
