@@ -58,7 +58,7 @@ def query_3(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
                                        '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}},
              {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}},
-             {"$lookup": {"from": "people", "localField": 'CalledNbr', "foreignField": "Number", "as": "Called"}}]
+             {"$lookup": {"from": "cells", "localField": 'CellSite', "foreignField": "CellSite", "as": "Cell"}}]
     client.test.calls.aggregate(query)
     return
 
@@ -68,7 +68,7 @@ def query_4(client=connect_mongo()):
                                        '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))},
                          "Duration": {'$gte': 900}}},
              {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}},
-             {"$lookup": {"from": "people", "localField": 'CalledNbr', "foreignField": "Number", "as": "Called"}}]
+             {"$lookup": {"from": "cells", "localField": 'CellSite', "foreignField": "CellSite", "as": "Cell"}}]
 
     client.test.calls.aggregate(query)
     return
@@ -76,11 +76,11 @@ def query_4(client=connect_mongo()):
 
 def query_5(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 17).timetuple())),
-                                      '$lt': int(mktime(datetime(2020, 1, 19).timetuple()))},
+                                       '$lt': int(mktime(datetime(2020, 1, 19).timetuple()))},
                          "Duration": {"$gte": 900}}},
              {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}},
-             {"$lookup": {"from": "people", "localField": 'CalledNbr', "foreignField": "Number", "as": "Called"}},
-             {"$lookup": {"from": "cells", "localField": 'CellSite', "foreignField": "CellSite", "as": "Cell"}}]
+             {"$lookup": {"from": "cells", "localField": 'CellSite', "foreignField": "CellSite", "as": "Cell"}},
+             {"$lookup": {"from": "people", "localField": 'CalledNbr', "foreignField": "Number", "as": "Called"}}]
     client.test.calls.aggregate(query)
     return
 
