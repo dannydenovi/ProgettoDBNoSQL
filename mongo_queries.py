@@ -38,8 +38,7 @@ def exec_query(n: int, client=connect_mongo(), t: bool = False) -> float:
 
 
 def query_1(client=connect_mongo()):
-    query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
-                                       '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}}]
+    query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple()))}}}]
     #query = [{"$lookup": {"from": "people", "localField": "CallingNbr", "foreignField": "Number", "as": "Calling"}}]
     client.test.calls.aggregate(query)
     return
@@ -47,8 +46,7 @@ def query_1(client=connect_mongo()):
 
 def query_2(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
-                                       '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}},
-             {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}}]
+                                       '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}}]
              #{"$lookup": {"from": "people", "localField": 'CalledNbr', "foreignField": "Number", "as": "Called"}}]
     client.test.calls.aggregate(query)
     return
@@ -57,16 +55,14 @@ def query_2(client=connect_mongo()):
 def query_3(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
                                        '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}},
-             {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}},
-             {"$lookup": {"from": "cells", "localField": 'CellSite', "foreignField": "CellSite", "as": "Cell"}}]
+             {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}}]
     client.test.calls.aggregate(query)
     return
 
 
 def query_4(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
-                                       '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))},
-                         "Duration": {'$gte': 900}}},
+                                       '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}},
              {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}},
              {"$lookup": {"from": "cells", "localField": 'CellSite', "foreignField": "CellSite", "as": "Cell"}}]
 
@@ -75,12 +71,11 @@ def query_4(client=connect_mongo()):
 
 
 def query_5(client=connect_mongo()):
-    query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 17).timetuple())),
-                                       '$lt': int(mktime(datetime(2020, 1, 19).timetuple()))},
+    query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
+                                       '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))},
                          "Duration": {"$gte": 900}}},
              {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}},
-             {"$lookup": {"from": "cells", "localField": 'CellSite', "foreignField": "CellSite", "as": "Cell"}},
-             {"$lookup": {"from": "people", "localField": 'CalledNbr', "foreignField": "Number", "as": "Called"}}]
+             {"$lookup": {"from": "cells", "localField": 'CellSite', "foreignField": "CellSite", "as": "Cell"}}]
     client.test.calls.aggregate(query)
     return
 
