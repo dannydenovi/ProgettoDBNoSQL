@@ -1,14 +1,12 @@
 from scripts.connections import connect_mongo
 from csv import DictReader
-from decimal import Decimal
-from bson.decimal128 import Decimal128
 
 
 def to_dict(csv: [dict]):
     for k, e in enumerate(csv):
         for f, i in e.items():
             if i.isdigit():
-                e[f] = Decimal128(Decimal(i))
+                e[f] = int(i)
     return csv
 
 
