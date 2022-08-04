@@ -1,4 +1,3 @@
-*.csv
 *.swp
 venv/
 __pycache__
