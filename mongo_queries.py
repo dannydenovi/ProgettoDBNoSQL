@@ -8,7 +8,7 @@ from sys import exit
 
 
 def timestamp(start: float = 0) -> float:
-    return time() - start
+    return time()*1000 - start
 
 
 def clear_cache(client=connect_mongo()):

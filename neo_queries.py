@@ -6,7 +6,7 @@ from sys import exit
 
 
 def timestamp(start: float = 0) -> float:
-    return time() - start
+    return time()*1000 - start
 
 
 def exec_query(qry: str, client=connect_neo(), t: bool = False) -> float:
