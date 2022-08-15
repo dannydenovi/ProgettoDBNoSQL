@@ -29,9 +29,6 @@ if __name__ == "__main__":
     perc = args.P + "_" if args.P != "" else ""
 
     queries = [
-        "MATCH (c:call) \
-         WHERE c.StartDate >= 1580083200   \
-         RETURN c",
 
         "MATCH (c:call)  \
          WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000   \
@@ -50,7 +47,7 @@ if __name__ == "__main__":
          RETURN p1, r1, c, r2, ce"
     ]
 
-    if 0 < num < 6:
+    if 0 < num < 5:
         clear_cache()
         with open('csv/neo_result_' + perc + str(num) + '.csv', 'w') as f:
             f.write("First," + str(exec_query(queries[num - 1], t=args.time)) + "\n")

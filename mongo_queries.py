@@ -31,26 +31,19 @@ def exec_query(n: int, client=connect_mongo(), t: bool = False) -> float:
         query_3(client)
     elif n == 4:
         query_4(client)
-    elif n == 5:
-        query_5(client)
 
     return timestamp(start) if t else 0
 
 
+
 def query_1(client=connect_mongo()):
-    query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple()))}}}]
-    client.test.calls.aggregate(query)
-    return
-
-
-def query_2(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
                                        '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}}]
     client.test.calls.aggregate(query)
     return
 
 
-def query_3(client=connect_mongo()):
+def query_2(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
                                        '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}},
              {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}}]
@@ -58,7 +51,7 @@ def query_3(client=connect_mongo()):
     return
 
 
-def query_4(client=connect_mongo()):
+def query_3(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
                                        '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))}}},
              {"$lookup": {"from": "people", "localField": 'CallingNbr', "foreignField": "Number", "as": "Calling"}},
@@ -68,7 +61,7 @@ def query_4(client=connect_mongo()):
     return
 
 
-def query_5(client=connect_mongo()):
+def query_4(client=connect_mongo()):
     query = [{"$match": {"StartDate": {'$gte': int(mktime(datetime(2020, 1, 27).timetuple())),
                                        '$lt': int(mktime(datetime(2020, 1, 29).timetuple()))},
                          "Duration": {"$gte": 900}}},
@@ -83,7 +76,7 @@ if __name__ == "__main__":
     num = int(args.N)
     perc = args.P + "_" if args.P != "" else ""
 
-    if 0 < num < 6:
+    if 0 < num < 5:
         clear_cache()
         with open('csv/mongo_result_' + perc + str(num) +'.csv', 'w') as f:
             f.write("First," + str(exec_query(num, t=args.time)) + "\n")

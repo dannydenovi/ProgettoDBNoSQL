@@ -23,7 +23,7 @@ def parse():
     parser.add_argument('-n',
                         dest="N",
                         required=True,
-                        help='Specify which query to execute [1-5].')
+                        help='Specify which query to execute [1-4].')
     parser.add_argument('-c', '--cache',
                         action="store_true",
                         default=False,
