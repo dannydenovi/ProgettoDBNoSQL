@@ -5,6 +5,7 @@ from random import randrange
 from datetime import datetime
 from argparse import ArgumentParser
 from threading import Thread
+from os import path, mkdir
 import csv
 
 
@@ -109,12 +110,13 @@ def write(name, list):
         write.writerows(list)
 
 
+if not path.exists("csv"):
+    mkdir("csv")
 
 threads = [
     Thread(target=gen_cells, args=(num_cells,)),
     Thread(target=gen_people, args=(num_people,))
 ]
-# threads.append(Thread(target=write, args=("people",people)))
 
 for i in range(2):
     threads[i].start()
