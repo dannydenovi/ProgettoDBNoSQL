@@ -113,15 +113,11 @@ def write(name, list):
 if not path.exists("csv"):
     mkdir("csv")
 
-threads = [
-    Thread(target=gen_cells, args=(num_cells,)),
-    Thread(target=gen_people, args=(num_people,))
-]
+thread = Thread(target=gen_cells, args=(num_cells,))
 
-for i in range(2):
-    threads[i].start()
+thread.start()
+gen_people(num_people)
 
-for i in range(2):
-    threads[i].join()
+thread.join()
 
 gen_calls(num_calls, num_people, start_date, end_date, range_call)
