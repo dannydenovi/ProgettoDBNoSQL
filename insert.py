@@ -34,19 +34,19 @@ args    = parser.parse_args()
 debug   = args.debug
 mongo, neo = (args.mongo, args.neo) if not args.all else (args.all, args.all)
 
+
 if mongo:
-    thread_mongo = Thread(target=insert_mongo, kwargs={'debug': debug, 'dim': args.P})
-    thread_mongo.start()
+    if not neo:
+        insert_mongo(debug=debug, dim=args.P)
+    else:
+        thread_mongo = Thread(target=insert_mongo, kwargs={'debug': debug, 'dim': args.P})
+        thread_mongo.start()
 
 if neo:
-    thread_neo = Thread(target=insert_neo, kwargs={'debug': debug, 'dim': args.P})
-    thread_neo.start()
+    insert_neo(debug=debug, dim=args.P)
 
 if 'thread_mongo' in locals():
     thread_mongo.join()
-
-if 'thread_neo' in locals():
-    thread_neo.join()
 
 print("Inserimenti finiti.")
 exit(0)
