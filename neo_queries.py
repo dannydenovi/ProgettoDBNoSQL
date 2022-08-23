@@ -29,22 +29,26 @@ if __name__ == "__main__":
     perc = args.P + "_" if args.P != "" else ""
 
     queries = [
+       "MATCH (c:call)  \
+        WHERE c.StartDate >= 1580083200 \
+            AND c.StartDate < 1580256000   \
+        RETURN c",
 
-        "MATCH (c:call)  \
-         WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000   \
-         RETURN c",
+       "MATCH (p1:person)-[r1:is_calling]->(c:call)  \
+        WHERE c.StartDate >= 1580083200 \
+            AND c.StartDate < 1580256000   \
+        RETURN p1, r1, c",
 
-        "MATCH (p1:person)-[r1:is_calling]->(c:call)  \
-         WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000   \
-         RETURN p1, r1, c",
+       "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r2:is_done]->(ce:cell) \
+        WHERE c.StartDate >= 1580083200 \
+            AND c.StartDate < 1580256000   \
+        RETURN p1, r1, c, r2, ce",
 
-        "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r2:is_done]->(ce:cell) \
-         WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000   \
-         RETURN p1, r1, c, r2, ce",
-         
-        "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r2:is_done]->(ce:cell) \
-         WHERE c.StartDate >= 1580083200 AND c.StartDate < 1580256000 AND c.Duration > 900   \
-         RETURN p1, r1, c, r2, ce"
+       "MATCH (p1:person)-[r1:is_calling]->(c:call)-[r2:is_done]->(ce:cell) \
+        WHERE c.StartDate >= 1580083200 \
+            AND c.StartDate < 1580256000 \
+            AND c.Duration > 900   \
+        RETURN p1, r1, c, r2, ce"
     ]
 
     if 0 < num < 5:
@@ -58,5 +62,5 @@ if __name__ == "__main__":
             f.write("Mean," + str(sum(tmp)/30) + "\n")
             f.write("Std. Dev.," + str(stdev(tmp)) + "\n")
     else:
-        print("Wrong query number. Only from 1 to 5.")
+        print("Wrong query number. Only from 1 to 4.")
     exit(0)
