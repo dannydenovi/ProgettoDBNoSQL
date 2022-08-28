@@ -9,13 +9,12 @@ def timestamp(start: float = 0) -> float:
     return time()*1000 - start
 
 
-def exec_query(qry: str, client=connect_neo(), t: bool = False) -> float:
+def exec_query(query: str, client=connect_neo(), t: bool = False) -> float:
     start = timestamp()
     with client.session() as db:
-        db.run(qry)
-        if t:
-            return timestamp(start)
-    return 0
+        db.run(query)
+
+    return timestamp(start) if t else 0
 
 
 def clear_cache():

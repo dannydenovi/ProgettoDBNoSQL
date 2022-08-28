@@ -72,7 +72,7 @@ if __name__ == "__main__":
     perc = args.P + "_" if args.P != "" else ""
     start_search = int(mktime(datetime(2020, 1, 27).timetuple()))
     end_search = int(mktime(datetime(2020, 1, 29).timetuple()))
-    duration_search = 900
+    dur_search = 900
 
     queries = [
         [
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         [
             {"$match": {"StartDate": {"$gte": start_search,
                                       "$lt": end_search},
-                        "Duration": {"$gte": duration_search}}},
+                        "Duration": {"$gte": dur_search}}},
             {"$lookup": {"from": "people",
                          "localField": "CallingNbr",
                          "foreignField": "Number",
