@@ -17,4 +17,4 @@ services:
       - NEO4J_AUTH=none
     volumes:
       # Sostituire il path
-      - "/Users/dannydenovi/Documents/University/Second Year/Basi Di Dati NoSQL/ProgettoDBNoSQL/csv:/var/lib/neo4j/import"
+      - "~/Documents/Git/ProgettoDBNoSQL/csv:/var/lib/neo4j/import"
