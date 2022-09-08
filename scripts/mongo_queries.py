@@ -1,5 +1,5 @@
 #!/bin/env python3
-from scripts.utils import connect_mongo, parse, timestamp
+from utils import connect_mongo, parse, timestamp
 from datetime import datetime
 from time import mktime
 from statistics import stdev
