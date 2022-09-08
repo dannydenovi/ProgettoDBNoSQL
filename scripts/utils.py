@@ -22,7 +22,7 @@ def connect_neo(ip: str = "localhost", port: str = "7687", user: str = "neo4j", 
     return GraphDatabase.driver(uri, auth=(user, passwd))
 
 
-# Crea un ArgumentParser per l'esecuzione da riga di comando per alcuni flag comuni a tutti gli scripts
+# Crea un ArgumentParser per l'esecuzione da riga di comando per alcuni flag comuni ad alcuni scripts
 def parse():
     parser = ArgumentParser(description="Executes some queries to Neo4j.")
     parser.add_argument('-t', '--time',

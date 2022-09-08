@@ -37,7 +37,7 @@ if mongo:
     # ... ma non su Neo4j
     if not neo:
         # Viene invocata la realtiva funzione di inserimento
-        insert_mongo(debug=debug, dim=args.P)
+        insert_mongo(debug=debug)
     # ... e anche Neo4j
     else:
         # Viene creato e fatto eseguire un thread per l'inserimento su MongoDB

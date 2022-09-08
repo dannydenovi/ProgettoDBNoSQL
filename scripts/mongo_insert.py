@@ -13,7 +13,7 @@ def to_dict(csv: [dict]):
 
 '''
 - Crea la connessione col MongoDB e seleziona il database corretto.
-- Se presente il flag debug == 1 effettua una pulizia del database.
+- Se presente il flag debug == True effettua una pulizia del database.
 - Per ogni entità crea, o apre se esiste già, un file di sola lettura dal quale vengono letti i dati in csv e 
 convertiti in dizionario e vengono inseriti nel database.
 '''
